@@ -3,7 +3,7 @@ const path = require("path");
 const MySqlClient = require('./db');
 
 
-class CustomerController {
+class Controller {
     constructor() {
         this.idCount = 0
         this.localModel = JSON.parse(fs.readFileSync(path.resolve(__dirname, ".././data/customer.json")));
@@ -26,7 +26,7 @@ class CustomerController {
         })
     }
 
-    async CreateCustomer(emaildId, firstName, lastName) {
+    async Create(emaildId, firstName, lastName) {
         if (process.env.DB === "local") {
             let model = {
                 "id": this.idCount++,
@@ -62,12 +62,14 @@ class CustomerController {
         })
     }
 
-    async GetAllCustomers() {
+    async GetAll() {
+
+        var _this = this
 
         if (process.env.DB === "local") {
-            return new Promise(function (resolve, reject) { resolve(this.localModel) })
+            return new Promise(function (resolve, reject) { resolve(_this.localModel) })
         }
-        var _this = this
+        
 
         return new Promise(function (resolve, reject) {
             _this.dbClient.Execute("SELECT * FROM Customers", function (results, fields) {
@@ -79,7 +81,7 @@ class CustomerController {
 
     }
 
-    GetCustomer(id) {
+    Get(id) {
         if (process.env.DB === "local") {
             for (const eachCustomer of this.localModel) {
                 if (eachCustomer["id"] == id) {
@@ -98,4 +100,4 @@ class CustomerController {
         })
     }
 }
-module.exports = CustomerController
+module.exports = Controller

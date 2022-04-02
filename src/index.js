@@ -1,5 +1,5 @@
 const express = require('express')
-const CustomerController = require('./customerController')
+const Controller = require('./Controller')
 const app = express()
 app.use(express.json());
 const port = 9050
@@ -10,7 +10,7 @@ const port = 9050
 // process.env.MYSQL_PASSWORD = "password"
 // process.env.MYSQL_DB_NAME = "db"
 
-this.controllerObj = new CustomerController()
+this.controllerObj = new Controller()
 
 app.get('/ping', (req, res) => {
     res.send('Pong!')
@@ -21,7 +21,7 @@ app.post('/customer', async (req, res) => {
     let myJson = req.body
     let j
     try {
-        j = await this.controllerObj.CreateCustomer(myJson["email"], myJson["firstName"], myJson["lastName"])
+        j = await this.controllerObj.Create(myJson["email"], myJson["firstName"], myJson["lastName"])
     } catch (err) {
         res.send(500).send({})
     }
@@ -32,7 +32,7 @@ app.post('/customer', async (req, res) => {
 app.get('/customer/:id', async (req, res) => {
     let val
     try {
-        val = await this.controllerObj.GetCustomer(req.params.id)
+        val = await this.controllerObj.Get(req.params.id)
     } catch (err) {
         res.send(500).send({})
     }
@@ -43,7 +43,7 @@ app.get('/customer/:id', async (req, res) => {
 app.get('/customer', async (req, res) => {
     let val
     try {
-        val = await this.controllerObj.GetAllCustomers()
+        val = await this.controllerObj.GetAll()
     } catch (err) {
         res.send(500).send({})
     }
