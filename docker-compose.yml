@@ -10,11 +10,15 @@ services:
       MYSQL_USER: user
       MYSQL_PASSWORD: password
       MYSQL_DB_NAME: db
+    profiles:
+      - cust
 
   eureka:
     image: springcloud/eureka
     ports:
       - "8761:8761"
+    profiles:
+      - eureka
 
   db:
     image: mysql:5.7
@@ -36,9 +40,14 @@ services:
       # Where our data will be persisted
     volumes:
       - my-db:/var/lib/mysql
+    profiles:
+      - db
+
 # Names our volume
 volumes:
   my-db:
 
 
-# docker-compose -f full.yml up --remove-orphans
+# docker-compose --profile cust up --remove-orphans
+# docker-compose --profile db up --remove-orphans
+# docker-compose --profile eureka up --remove-orphans

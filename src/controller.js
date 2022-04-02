@@ -81,7 +81,7 @@ class Controller {
 
     }
 
-    Get(id) {
+    async Get(id) {
         if (process.env.DB === "local") {
             for (const eachCustomer of this.localModel) {
                 if (eachCustomer["id"] == id) {

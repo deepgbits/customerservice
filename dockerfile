@@ -15,7 +15,5 @@ RUN npm install
 # Bundle app source
 COPY . /usr/src/app
 
-
-
 EXPOSE 9050
 CMD [ "npm", "start" ]
